@@ -1,0 +1,49 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  plus                                  |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      wavesProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+inlet
+{
+    alpha           alpha.water;
+
+    waveModel       StokesII;
+
+// 2 paddles because 3D sim
+    nPaddle         2;
+
+    waveHeight      0.1;
+
+    waveAngle       0.0;
+
+    rampTime        1.5;
+
+    activeAbsorption yes;
+
+    wavePeriod     1.5;
+    // this should be a tuning ratio of around 2.12/1.4 ~ 1.40
+}
+
+outlet
+{
+    alpha           alpha.water;
+
+    waveModel       shallowWaterAbsorption;
+
+    nPaddle         2;
+}
+
+
+// ************************************************************************* //

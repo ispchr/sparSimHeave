@@ -1,0 +1,67 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  plus                                  |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      motionProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh       dynamicMotionSolverFvMesh;
+
+motionSolverLibs    ("libsixDoFRigidBodyMotion.so");
+
+motionSolver        sixDoFRigidBodyMotion;
+
+sixDoFRigidBodyMotionCoeffs
+{
+    patches         (cylinderMcCormick);
+    // IP, Default
+    innerDistance   0.05;
+    // IP, ~2 times the expected heave movement 
+    outerDistance   0.6;
+
+    centreOfMass    (0 0 0);
+    // IP, From McCormick's Experiment
+    mass            31.42;
+
+	// IP, Dummy Inertias here (only Heave DoF active)
+	momentOfInertia ( 1E-10 1E-10 1E-10 );
+	
+
+    report          on;
+	reportToFile    on;
+// Recommended in Niek's Thesis (ACTIVE)
+// Recommended value from wiki page (https://openfoamwiki.net/index.php/Parameter_Definitions_-_dynamicMotionSolverFvMesh#Diffusivity_Parameter) (SCRAPPED)
+// Recommended from Tutorials (SCRAPPED)
+    accelerationRelaxation 1.0;
+
+    solver
+    {
+        type Newmark;
+    }
+
+    constraints
+    {
+// Disable Any Rotation about the cylinder's centre of mass
+	fixedRotationalMotion{
+		sixDoFRigidBodyMotionConstraint   orientation;
+	}
+// Allow only heaving (along Z AXIS NOW, where gravity is acting)
+    fixedLinearMovement{
+        sixDoFRigidBodyMotionConstraint   line;
+        direction                              (0 0 1);
+    }
+    }
+}
+
+
+
+// ************************************************************************* //

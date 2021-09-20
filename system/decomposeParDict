@@ -1,0 +1,32 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  plus                                  |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      decomposeParDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Can't use virtual cores as well, because openfoam doesn't take advantage of hyperthreading technology
+numberOfSubdomains 6;
+ 
+method          simple;
+ 
+simpleCoeffs
+{
+    n               (2 1 3);
+  //  delta           0.001;
+}
+
+distributed     no;
+
+roots           ( );
+
+// ************************************************************************* //

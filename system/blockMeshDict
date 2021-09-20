@@ -1,0 +1,101 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  plus                                  |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+scale   1;
+
+vertices
+(
+/*(x: wave direction (wave generation and absorption condition), y: tank width, z: tank depth*/
+// Water Block (From -d to -H)
+// NWT Length is 1 * Wavelength 
+// Wave Height is 0.1 m // Wave Height of 0.2 m was close to breaking limit
+    (  -1.740893455  -1.25 -1.15)
+    ( 1.740893455  -1.25 -1.15)
+    (  -1.740893455   -1.25 0.95)
+    (1.740893455  -1.25 0.95)
+                 
+    (  -1.740893455 1.25  -1.15)
+    ( 1.740893455  1.25 -1.15)
+    (  -1.740893455   1.25 0.95)
+    ( 1.740893455   1.25 0.95)    
+
+);
+
+blocks
+(
+	// Block 1
+    hex (0 1 5 4 2 3 7 6) (44 31 26) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    // Floating object boundary (Not used in this case)
+    //floatingObject
+    //{
+    //    type wall;
+    //    faces ();
+    //}
+    bottom
+    {
+        type wall;
+        faces
+        (
+			(0 1 5 4)
+        );
+    }
+	backFront
+	{
+		type wall;
+		faces
+		(
+			(0 1 3 2)
+			(4 5 7 6)
+		);
+	}
+    atmosphere
+    {
+        type patch;
+        faces
+        (
+			(2 3 7 6)
+        );
+    }
+    inlet 
+    {
+        type patch;
+        faces
+        (
+            (0 4 6 2)
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+        	(1 5 7 3)
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //

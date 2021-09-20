@@ -1,0 +1,125 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  plus                                  |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     interDyMFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime 		20; 
+
+deltaT          0.001;
+
+writeControl    adjustableRunTime;
+
+// incrased from 0.05 to save space in hard drive
+writeInterval   0.1;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+adjustTimeStep  yes;
+
+// Using 0.25 because simulation with waves (from parametric study)
+// Increased to 1 because I can apparently (that's why I use pimple)
+maxCo           1;
+maxAlphaCo      1;
+
+maxDeltaT       1;
+
+functions
+{
+ line
+    {
+        type            sets;
+        libs            ("libsampling.so");
+        enabled         true;
+        writeControl    writeTime;
+        writeInterval   1;
+
+        interpolationScheme cellPoint;
+        setFormat       raw;
+        sets
+        (
+            start
+            {
+            // not exactly at the start cuz I get weird errors
+                type    uniform;
+                axis    distance;
+                start   ( -1.74089 0 -1.15 );
+                end     ( -1.74089 0 0.95 );
+                nPoints 3000;
+            }
+            halfway
+            {
+                type    uniform;
+                axis    distance;
+                start   ( -0.8704467275 0 -1.15 );
+                end     ( -0.8704467275 0 0.95);
+                nPoints 3000;
+            }
+            beforeObject
+            {
+                type    uniform;
+                axis    distance;
+                start   ( -0.15 0 -1.15 );
+                end     ( -0.15 0 0.95 );
+                nPoints 3000;
+            }
+            afterObject
+            {
+                type    uniform;
+                axis    distance;
+                start   ( 0.15 0 -1.15 );
+                end     ( 0.15 0 0.95);
+                nPoints 3000;
+            }
+                        finish
+            {
+            // not exactly at the start cuz I get weird errors
+                type    uniform;
+                axis    distance;
+                start   ( 1.74089 0 -1.15 );
+                end     ( 1.74089 0 0.95 );
+                nPoints 3000;
+            }
+        );
+
+        fixedLocations  false;
+        fields
+        (
+        	alpha.water
+        );
+    }
+
+}
+
+
+// ************************************************************************* //

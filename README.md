@@ -5,5 +5,5 @@ This wave-structure interaction model replicates the movement of a heaving buoy 
 ![UMagnitudeAt180](https://user-images.githubusercontent.com/55588269/134431923-abcb51bf-9b52-4fb4-82b4-e3172cab0718.png)
 Label: Magnitude of Velocity Field (U) at the 180th time step
 
-![heavePlotted](https://user-images.githubusercontent.com/55588269/134432256-8500b9eb-f2f2-4da5-9b18-b88ee8786a62.png)/n
+![heavePlotted](https://user-images.githubusercontent.com/55588269/134432256-8500b9eb-f2f2-4da5-9b18-b88ee8786a62.png)\n
 Label: Simulated Heaving Movement

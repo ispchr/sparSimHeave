@@ -1,7 +1,7 @@
 # FSI_Buoy
 
 ## Basic Description and How to Run
-This wave-structure interaction model replicates the movement of a heaving buoy under the influence of regular water waves. The repository is meant to be run on OpenFOAM+ v1712. Just hit `sh Allrun` on your Linux terminal and all required pre-processors together with the two-phase solver should be run sequently.
+This wave-structure interaction model replicates the movement of a heaving buoy under the influence of regular water waves. The repository is meant to be run on OpenFOAM+ v1712. Just hit `sh Allrun` on your Linux terminal and all required pre-processors together with the two-phase solver should run sequently.
 
 ## The Setup
 Regular waves (2nd order) are created at the boundaries using the Static Boundary Method (SBM). The cylindrical buoy is imported into the computational domain using the _snappyHexMesh_ utility pre-processor. The Mesh morphing method is used to topologically change the mesh influenced by the buoy's movement. The buoy's rigid movements are calculated with the help of the _sixDoFRigidBodyMotion_ solver, where just the heave DoF has been activated. The _interFoam_ solver for multiphase and continuous flows is deployed in this model. No turbulance model are accounted here (laminar simulation), but adding yours will definetely give you more valid results. I would recommend using the k-epsilon turbulence model.
